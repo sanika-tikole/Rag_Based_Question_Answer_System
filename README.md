@@ -167,6 +167,7 @@ The current implementation has the following limitations, which could be address
 
 6. **No Evaluation Automation**: The `sample_qa.md` file exists for manual testing, but there is no automated evaluation pipeline to compute accuracy, citation precision, or hallucination rate.
 
+## live demo :-https://ragquestionanswerchatbot.streamlit.app/
 ## 📄 License
 
 This project is created as part of the Atman Cloud Consultancy AI/ML Engineer assignment.
