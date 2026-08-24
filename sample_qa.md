@@ -1,6 +1,6 @@
 # RAG System Evaluation: Sample Q&A Log
 
-**Candidate Name:** [Your Name]  
+**Candidate Name:** Sanika Tikole  
 **Date:** August 24, 2026  
 **Project:** Atman Cloud RAG-Based Document Q&A System
 
