@@ -1,0 +1,22 @@
+# Core RAG & ML
+PyMuPDF
+sentence-transformers
+chromadb
+
+# UI
+streamlit
+
+# Utilities & LLM (Groq)
+python-dotenv
+groq
+pydantic
+pydantic-settings
+
+# Hybrid Search
+rank-bm25
+
+# Text Processing
+langchain-text-splitters
+
+# Testing
+pytest

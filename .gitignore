@@ -1,0 +1,28 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment files
+.env
+
+# Local tooling
+.streamlit/
+.idea/
+.vscode/
+
+# Generated data
+data/vector_store/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
