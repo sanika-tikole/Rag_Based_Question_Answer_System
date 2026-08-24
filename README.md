@@ -159,15 +159,13 @@ The current implementation has the following limitations, which could be address
 
 2. **Single Language**: The embedding model (`all-MiniLM-L6-v2`) is optimized for English. Non-English documents may have reduced retrieval accuracy. (Fix: switch to `paraphrase-multilingual-MiniLM-L12-v2`.)
 
-3. **No Conversational Context**: Each question is answered independently. The system does not remember previous questions in the session. (Fix: implement conversation history in Streamlit.)
+3. **No Document Management**: Users cannot delete or list ingested documents from the UI. (Fix: add a document management panel.)
 
-4. **No Document Management**: Users cannot delete or list ingested documents from the UI. (Fix: add a document management panel.)
+4. **No Streaming Responses**: The LLM response appears all at once after generation completes. (Fix: use Groq's streaming API for token-by-token display.)
 
-5. **No Streaming Responses**: The LLM response appears all at once after generation completes. (Fix: use Groq's streaming API for token-by-token display.)
+5. **No Re-ranking**: Retrieved chunks are returned in raw similarity order. A cross-encoder re-ranker could improve precision for complex queries.
 
-6. **No Re-ranking**: Retrieved chunks are returned in raw similarity order. A cross-encoder re-ranker could improve precision for complex queries.
-
-7. **No Evaluation Automation**: The `sample_qa.md` file exists for manual testing, but there is no automated evaluation pipeline to compute accuracy, citation precision, or hallucination rate.
+6. **No Evaluation Automation**: The `sample_qa.md` file exists for manual testing, but there is no automated evaluation pipeline to compute accuracy, citation precision, or hallucination rate.
 
 ## 📄 License
 
