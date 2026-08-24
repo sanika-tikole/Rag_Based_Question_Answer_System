@@ -167,6 +167,21 @@ The current implementation has the following limitations, which could be address
 
 6. **No Evaluation Automation**: The `sample_qa.md` file exists for manual testing, but there is no automated evaluation pipeline to compute accuracy, citation precision, or hallucination rate.
 
+## 🤖 AI Disclosure & Acknowledgments
+
+Portions of this project's source code, documentation, and architectural design were developed with the assistance of AI tools (Large Language Models). 
+
+**How AI was used:**
+- Generating boilerplate code and standard library implementations.
+- Debugging errors and resolving dependency conflicts.
+- Drafting documentation, including the README, design trade-offs, and known limitations.
+- Suggesting unit test cases and edge-case handling strategies.
+
+**Human involvement:**
+- All AI-generated code was manually reviewed, tested, and integrated by the author.
+- Architectural decisions, environment configuration, and final logic adjustments were made by the author to ensure the system meets the specific requirements of the Atman Cloud Consultancy assignment.
+- The final application was rigorously tested locally to verify functionality, accuracy, and performance.
+
 ## 📄 License
 
 This project is created as part of the Atman Cloud Consultancy AI/ML Engineer assignment.
