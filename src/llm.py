@@ -1,3 +1,4 @@
+import re
 from typing import List, Dict, Any
 from groq import Groq
 
@@ -14,47 +15,55 @@ groq_client = Groq(api_key=settings.groq_api_key)
 def generate_answer(query: str, context: List[Dict[str, Any]], conversation_history: List[Dict[str, str]] = None) -> Dict[str, Any]:
     """
     Generates an answer using Groq based on the retrieved context and conversation history.
-    
-    Args:
-        query: The user's question.
-        context: List of retrieved chunks.
-        conversation_history: Optional list of previous messages for context.
-        
-    Returns:
-        A dictionary containing the 'answer' and 'citations' (list of sources).
     """
+    # 1. INTERCEPT GREETINGS EARLY
+    lower_query = query.lower().strip()
+    greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "how are you", "greetings"]
+    
+    is_greeting = any(
+        lower_query == g or 
+        lower_query.startswith(g + " ") or 
+        lower_query.startswith(g + ",") 
+        for g in greetings
+    )
+    
+    if is_greeting and len(lower_query.split()) <= 4:
+        return {
+            "answer": "Hello! 👋 I'm your Atman Cloud Document Q&A assistant. How can I help you with our products, policies, or API today?",
+            "citations": []
+        }
+
+    # 2. HANDLE EMPTY CONTEXT
     if not context:
         return {
             "answer": "I could not find any relevant information in the documents to answer your question.",
             "citations": []
         }
 
-    # Format context into a readable string with citation markers
+    # 3. FORMAT CONTEXT WITH CITATION MARKERS
     context_str = ""
-    sources = set()
     for i, chunk in enumerate(context):
         context_str += f"[{i+1}] Source: {chunk['source']}\nText: {chunk['text']}\n\n"
-        sources.add(chunk['source'])
         
-    # Construct the system prompt
+    # 4. CONSTRUCT STRICT SYSTEM PROMPT
     system_prompt = f"""You are a helpful and precise AI assistant. 
 Answer the user's question based ONLY on the provided context. 
 If the context does not contain the answer, state clearly: "I cannot find the answer in the provided documents."
-Always cite your sources using the format [1], [2], etc., corresponding to the context provided.
+
+CRITICAL RULE: You MUST cite your sources using simple brackets like [1], [2], etc., corresponding to the context provided. 
+DO NOT use complex citation formats like 【1†L1-L2】 or (Source 1). Use ONLY [1], [2], etc.
 
 Context:
 {context_str}
 """
 
-    # Build messages list with conversation history
+    # 5. BUILD MESSAGES LIST
     messages = [{"role": "system", "content": system_prompt}]
     
-    # Add conversation history (if provided)
     if conversation_history:
         for msg in conversation_history:
             messages.append({"role": msg["role"], "content": msg["content"]})
     
-    # Add current query
     messages.append({"role": "user", "content": query})
 
     logger.info(f"Sending request to Groq (Model: {settings.llm_model_name})...")
@@ -70,9 +79,20 @@ Context:
         answer = response.choices[0].message.content.strip()
         logger.info("Successfully generated answer from Groq.")
         
+        # 6. DYNAMIC CITATION MAPPING (THE FIX)
+        # Find all citation numbers the AI actually used in its answer (e.g., [1], [2], or 【1】)
+        cited_numbers = re.findall(r'(?:\[|【)(\d+)(?:\]|】)', answer)
+        
+        # Map those numbers back to the specific source files
+        used_sources = set()
+        for num_str in cited_numbers:
+            idx = int(num_str) - 1  # Convert 1-based citation to 0-based list index
+            if 0 <= idx < len(context):
+                used_sources.add(context[idx]['source'])
+        
         return {
             "answer": answer,
-            "citations": list(sources)
+            "citations": list(used_sources)  # Only return sources actually cited!
         }
         
     except Exception as e:
