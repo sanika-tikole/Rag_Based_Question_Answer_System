@@ -15,18 +15,7 @@ A clean, modular, and production-ready Retrieval-Augmented Generation (RAG) syst
 
 ## 🏗️ Architecture
 
-```text
-[PDF Files] 
-    │
-    ▼
-[PyMuPDF Extraction] ──► [Recursive Text Chunking]
-                              │
-                              ▼
-[Sentence Transformers] ──► [ChromaDB Vector Store]
-                              │
-                              ▼
-[User Query] ──► [Semantic Search] ──► [Groq LLM + Prompt] ──► [Answer + Citations]
-```
+<img width="1661" height="947" alt="ChatGPT Image Aug 24, 2026, 02_29_04 PM" src="https://github.com/user-attachments/assets/4d0e8f17-5122-4a7a-89fc-8702ae8dac96" />
 
 ## 🚀 Quick Start
 
